@@ -4,6 +4,7 @@ html {
 
 body {
   font-size: 1.4rem;
+  background: #282828;
 }
 
 div {
@@ -15,9 +16,10 @@ div {
   flex-direction: column;
   height: 80rem;
   width: 35rem;
-  background: #14146d;
+  background: #607D8B;
   border-radius: 2rem;
   margin: 0 auto;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5), 0 6px 20px 0 rgba(0, 0, 0, 0.9);
 }
 
 .keyboardCol {
@@ -104,7 +106,7 @@ div {
   height: 30rem;
   top: 0;
   padding: 1rem;
-  font-size: 4rem;
+  font-size: 3rem;
   display:none;
 }
 
@@ -138,7 +140,8 @@ STATUS
   display: none;
 }
 
-[data-status="transition"] [data-action="quit"]{
+[data-status="transition"] [data-action="quit"],
+[data-status="final"] [data-action="quit"]{
   display: unset;
 }
 

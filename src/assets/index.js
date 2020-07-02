@@ -19,20 +19,6 @@ const displayError = async (message = `:( oops, please try again`) => {
   })
 }
 
-const showOverlay = async ({ content = '', status = DEFAULT_STATUS } = {}) => {
-  $('.app')
-    .find('.overlay').html(content).show();
-
-  return { content, status };
-}
-
-const hideOverlay = async ({ status = DEFAULT_STATUS } = {}) => {
-  $('.app')
-    .find('.overlay').html('').hide();
-
-  return { status };
-}
-
 const answerIdle = async (message = `Insert option number`) => {
   return await showOverlay({
     content: message,
@@ -61,7 +47,37 @@ const answer = (index, dataset = []) => {
   return confirmAction();
 }
 
+const setStatus = async status => {
+  $('.app').attr('data-status', status)
+  return status;
+};
+
+const showOverlay = async ({ content = '', status = DEFAULT_STATUS } = {}) => {
+  $('.app')
+    .find('.overlay').html(content).show();
+
+  return { content, status };
+}
+
+const hideOverlay = async ({ status = DEFAULT_STATUS } = {}) => {
+  $('.app')
+    .find('.overlay').html('').hide();
+
+  return { status };
+}
+
+const showTransition = async ({ transitionSpeed = 1000 } = {}) => {
+  await showOverlay({ content: `CONNECTING ...`, status: `transition` }).then(({ status }) => setStatus(status));
+  await new Promise(resolve => setTimeout(resolve, transitionSpeed));
+  await hideOverlay();
+
+  return;
+}
+
 const render = async ({ content = '', dataset = [], status = DEFAULT_STATUS } = {}) => {
+
+  await showTransition();
+
   $('.app')
     .find('.content').html(content)
     .end()
@@ -70,17 +86,12 @@ const render = async ({ content = '', dataset = [], status = DEFAULT_STATUS } = 
   return { content, dataset, status }
 }
 
-const setStatus = async status => {
-  $('.app').attr('data-status', status)
-  return status;
-};
-
 /**
  * UI BINDINGS
  */
 
 $(() => {
-  displayHomeMenu();
+  displayHomeMenu().then(({ status }) => setStatus(status));
 
   $('.numPad').on('click.numPad', '.btn', event => {
 

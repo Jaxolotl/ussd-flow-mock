@@ -70,7 +70,10 @@ const render = async ({ content = '', dataset = [], status = DEFAULT_STATUS } = 
   return { content, dataset, status }
 }
 
-const setStatus = status => $('.app').attr('data-status', status);
+const setStatus = async status => {
+  $('.app').attr('data-status', status)
+  return status;
+};
 
 /**
  * UI BINDINGS
@@ -109,15 +112,13 @@ $(() => {
 
           answer(value, dataset)
             .then(({ status }) => hideOverlay({ status }))
-            .then(({ status }) => setStatus(status))
             .catch(reason => {
-
-              displayError(reason)
+              return displayError(reason)
                 .then(({ status }) => setStatus(status))
                 .then(() => new Promise(resolve => setTimeout(resolve, 3000)))
-                .then(hideOverlay)
-                .then(({ status }) => setStatus(status));
-            });
+                .then(hideOverlay);
+            })
+            .then(({ status }) => setStatus(status));
         }
         break;
     }

@@ -5,7 +5,7 @@
 
 
 const displayHomeMenu = () => {
-  render({
+  return render({
     content: `Menu
     ${datasetToList(home)}`,
     dataset: home
@@ -13,7 +13,7 @@ const displayHomeMenu = () => {
 }
 
 const displaySenders = () => {
-  render({
+  return render({
     content: `Enter sender
     ${datasetToList(senders)}`,
     dataset: senders
@@ -21,7 +21,7 @@ const displaySenders = () => {
 }
 
 const displayReceivers = () => {
-  render({
+  return render({
     content: `Enter receiver
     ${datasetToList(receivers)}`,
     dataset: receivers
@@ -29,7 +29,7 @@ const displayReceivers = () => {
 }
 
 const displayPickupLocations = () => {
-  render({
+  return render({
     content: `Enter pickup location
     ${datasetToList(pickUpLocations)}`,
     dataset: pickUpLocations
@@ -37,7 +37,7 @@ const displayPickupLocations = () => {
 }
 
 const displayDropOffLocations = () => {
-  render({
+  return render({
     content: `Enter drop off location
     ${datasetToList(dropOffLocations)}`,
     dataset: dropOffLocations
@@ -45,7 +45,7 @@ const displayDropOffLocations = () => {
 }
 
 const displayGoods = () => {
-  render({
+  return render({
     content: `Select what's being shipped
     ${datasetToList(goods)}`,
     dataset: goods
@@ -53,9 +53,9 @@ const displayGoods = () => {
 }
 
 const displayThanks = () => {
-  render({
+  return render({
     content: "Thank you for requesting a shipment",
-    dataset: 'thanks'
+    status: 'final'
   })
 }
 

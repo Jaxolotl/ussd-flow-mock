@@ -4,48 +4,50 @@
  * utils
  */
 
-const datasetToList = dataset => dataset.map((item, index) => `${index}: ${item.title}`).join('\n');
+const DEFAULT_STATUS = `options`;
+
+const datasetToList = (dataset = []) => dataset.map((item, index) => `${index}: ${item.title}`).join('\n');
 
 /**
  * DEFAULT RENDERING FUNCTIONS
  */
 
-const displayError = (message = `:( oops, please try again`) => {
-  showOverlay({
+const displayError = async (message = `:( oops, please try again`) => {
+  return await showOverlay({
     content: message,
     status: `error`
   })
 }
 
-const showOverlay = ({ content, status = 'transition' } = {}) => {
+const showOverlay = async ({ content = '', status = DEFAULT_STATUS } = {}) => {
   $('.app')
-    .find('.overlay').html(content).show()
-    .end()
-    .attr('data-status', status);
+    .find('.overlay').html(content).show();
+
+  return { content, status };
 }
 
-const hideOverlay = ({ status = 'options' } = {}) => {
+const hideOverlay = async ({ status = DEFAULT_STATUS } = {}) => {
   $('.app')
-    .find('.overlay').html('').hide()
-    .end()
-    .attr('data-status', status);
+    .find('.overlay').html('').hide();
+
+  return { status };
 }
 
-const answerIdle = (message = `Insert option number`) => {
-  showOverlay({
+const answerIdle = async (message = `Insert option number`) => {
+  return await showOverlay({
     content: message,
     status: `answerIdle`
-  })
+  });
 }
 
-const answering = value => {
-  showOverlay({
+const answering = async (value) => {
+  return await showOverlay({
     content: value,
     status: `answering`
-  })
+  });
 }
 
-const answer = (index, dataset) => {
+const answer = (index, dataset = []) => {
 
   const confirmAction = dataset[index] && dataset[index].confirm;
 
@@ -56,22 +58,27 @@ const answer = (index, dataset) => {
       Please try again.`);
   }
 
-  return Promise.resolve(confirmAction());
+  return confirmAction();
 }
 
-const render = ({ content, dataset } = {}) => {
+const render = async ({ content = '', dataset = [], status = DEFAULT_STATUS } = {}) => {
   $('.app')
     .find('.content').html(content)
     .end()
     .data('dataset', dataset);
+
+  return { content, dataset, status }
 }
+
+const setStatus = status => $('.app').attr('data-status', status);
 
 /**
  * UI BINDINGS
  */
 
 $(() => {
-  displayHomeMenu()
+  displayHomeMenu();
+
   $('.numPad').on('click.numPad', '.btn', event => {
 
     const status = $('.app').attr('data-status');
@@ -79,8 +86,10 @@ $(() => {
     switch (status) {
       case 'answerIdle':
       case 'answering':
-        const index = $(event.target).attr('data-action');
-        answering(index)
+        {
+          const index = $(event.target).attr('data-action');
+          answering(index).then(({ status }) => setStatus(status))
+        }
         break;
     }
   })
@@ -90,20 +99,26 @@ $(() => {
     const status = $('.app').attr('data-status');
 
     switch (status) {
-      case 'options':
-        answerIdle()
+      case DEFAULT_STATUS:
+        answerIdle().then(({ status }) => setStatus(status));
         break;
       case 'answering':
-        const value = $('.overlay').text();
-        const dataset = $('.app').data('dataset');
+        {
+          const value = $('.overlay').text();
+          const dataset = $('.app').data('dataset');
 
-        answer(value, dataset)
-          .then(() => hideOverlay())
-          .catch(reason => {
-            displayError(reason);
-            setTimeout(hideOverlay, 3000)
-          });
+          answer(value, dataset)
+            .then(({ status }) => hideOverlay({ status }))
+            .then(({ status }) => setStatus(status))
+            .catch(reason => {
 
+              displayError(reason)
+                .then(({ status }) => setStatus(status))
+                .then(() => new Promise(resolve => setTimeout(resolve, 3000)))
+                .then(hideOverlay)
+                .then(({ status }) => setStatus(status));
+            });
+        }
         break;
     }
   }).on('click.confirm', '.cancel', event => {
@@ -111,13 +126,13 @@ $(() => {
 
     switch (status) {
       case 'answerIdle':
-        hideOverlay();
+        hideOverlay().then(({ status }) => setStatus(status));
         break;
       case 'answering':
-        answerIdle();
+        answerIdle().then(({ status }) => setStatus(status));
         break;
       default:
-        displayHomeMenu()
+        displayHomeMenu().then(({ status }) => setStatus(status))
         break;
     }
   })

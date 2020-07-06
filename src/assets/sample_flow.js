@@ -60,6 +60,7 @@ const displayThanks = () => {
 }
 
 const home = [
+  null,
   { title: "Request a shipment", confirm: displaySenders },
   { title: "Check shipment status" },
   { title: "Repeat recent jobs" },

@@ -6,7 +6,7 @@
 
 const DEFAULT_STATUS = `options`;
 
-const datasetToList = (dataset = []) => dataset.map((item, index) => `${index}: ${item.title}`).join('\n');
+const datasetToList = (dataset = []) => dataset.map((item, index) => item && `${index}: ${item.title}`).filter(item => item).join('\n');
 
 /**
  * DEFAULT RENDERING FUNCTIONS

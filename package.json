@@ -1,6 +1,6 @@
 {
   "name": "ussd-flow-mock",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Minimal JavaScript/HTML/CSS app to mock up USSD flows for demos",
   "repository": {
     "type": "git",

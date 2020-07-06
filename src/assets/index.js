@@ -102,7 +102,8 @@ $(() => {
       case 'answering':
         {
           const index = $(event.target).attr('data-action');
-          answering(index).then(({ status }) => setStatus(status))
+          const previousVal = (status === `answerIdle`) ? '' : $('.overlay').text();
+          answering(`${previousVal}${index}`).then(({ status }) => setStatus(status))
         }
         break;
     }

@@ -19,10 +19,10 @@ const displayError = async (message = `:( oops, please try again`) => {
   })
 }
 
-const answerIdle = async (message = `Insert option number`) => {
+const answerStandby = async (message = `Insert number`) => {
   return await showOverlay({
     content: message,
-    status: `answerIdle`
+    status: `answerStandby`
   });
 }
 
@@ -33,9 +33,18 @@ const answering = async (value) => {
   });
 }
 
-const answer = (index, dataset = []) => {
+const getConfirmActionFromDataset = (dataset, index) => {
 
-  const confirmAction = dataset[index] && dataset[index].confirm;
+  return {
+    'function': dataset,
+    'object': dataset && dataset[index] && dataset[index].confirm // gross, find a better way asap
+  }[typeof dataset];
+
+}
+
+const answer = (index, dataset) => {
+
+  const confirmAction = getConfirmActionFromDataset(dataset, index);
 
   if (!confirmAction) {
     return Promise.reject(`:( 
@@ -98,11 +107,12 @@ $(() => {
     const status = $('.app').attr('data-status');
 
     switch (status) {
-      case 'answerIdle':
+      case 'answerStandby':
       case 'answering':
         {
           const index = $(event.target).attr('data-action');
-          answering(index).then(({ status }) => setStatus(status))
+          const previousVal = (status === `answerStandby`) ? '' : $('.overlay').text();
+          answering(`${previousVal}${index}`).then(({ status }) => setStatus(status))
         }
         break;
     }
@@ -114,7 +124,7 @@ $(() => {
 
     switch (status) {
       case DEFAULT_STATUS:
-        answerIdle().then(({ status }) => setStatus(status));
+        answerStandby().then(({ status }) => setStatus(status));
         break;
       case 'answering':
         {
@@ -137,11 +147,11 @@ $(() => {
     const status = $('.app').attr('data-status');
 
     switch (status) {
-      case 'answerIdle':
+      case 'answerStandby':
         hideOverlay().then(({ status }) => setStatus(status));
         break;
       case 'answering':
-        answerIdle().then(({ status }) => setStatus(status));
+        answerStandby().then(({ status }) => setStatus(status));
         break;
       default:
         displayHomeMenu().then(({ status }) => setStatus(status))

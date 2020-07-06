@@ -132,7 +132,7 @@ STATUS
   standby: menu/names
   standbyCall: send/clear
   options: answer/quit
-  answerIdle: back
+  answerStandby: back
   answering: send/clear
 */
 
@@ -160,7 +160,7 @@ STATUS
   display: unset;
 }
 
-[data-status="answerIdle"] [data-action="back"]{
+[data-status="answerStandby"] [data-action="back"]{
   display: unset;
 }
 

@@ -59,6 +59,22 @@ const displayThanks = () => {
   })
 }
 
+const displayArbitrarySender = () => {
+  return render({
+    content: "Enter sender phone number",
+    dataset: displayPickupLocations,
+    status: 'answerStandby'
+  })
+}
+
+const displayArbitraryReceiver = () => {
+  return render({
+    content: "Enter receiver phone number",
+    dataset: displayDropOffLocations,
+    status: 'answerStandby'
+  })
+}
+
 const home = [
   null,
   { title: "Request a shipment", confirm: displaySenders },
@@ -79,12 +95,12 @@ const people = [
 
 const senders = [
   ...people.map(item => { return { ...item, confirm: displayPickupLocations } }),
-  { title: "Someone else" },
+  { title: "Someone else", confirm: displayArbitrarySender },
 ]
 
 const receivers = [
   ...people.map(item => { return { ...item, confirm: displayDropOffLocations } }),
-  { title: "Someone else" },
+  { title: "Someone else", confirm: displayArbitraryReceiver },
 ]
 
 const locations = [

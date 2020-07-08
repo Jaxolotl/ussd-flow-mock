@@ -189,6 +189,7 @@ The status property control how the content will be displayed and which actions 
     <th width="33%"> `answerStandby` </th>
     <th width="33%"> `final` </th>
   </tr>
+  <tr>
     <td> <img src="docs/home_sample_01.png" /> </td>
     <td><img src="docs/enter_sender_number.png" /></td>
     <td><img src="docs/thanks.png" /></td>

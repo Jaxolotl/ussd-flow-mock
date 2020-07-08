@@ -3,8 +3,7 @@
  * FLOW DEFINITION
  */
 
-
-const displayHomeMenu = () => {
+function displayHomeMenu () {
   return render({
     content: `Menu
     ${datasetToList(home)}`,
@@ -12,7 +11,7 @@ const displayHomeMenu = () => {
   })
 }
 
-const displaySenders = () => {
+function displaySenders () {
   return render({
     content: `Enter sender
     ${datasetToList(senders)}`,
@@ -20,7 +19,7 @@ const displaySenders = () => {
   })
 }
 
-const displayReceivers = () => {
+function displayReceivers()  {
   return render({
     content: `Enter receiver
     ${datasetToList(receivers)}`,
@@ -28,7 +27,7 @@ const displayReceivers = () => {
   })
 }
 
-const displayPickupLocations = () => {
+function displayPickupLocations () {
   return render({
     content: `Enter pickup location
     ${datasetToList(pickUpLocations)}`,
@@ -36,7 +35,7 @@ const displayPickupLocations = () => {
   })
 }
 
-const displayDropOffLocations = () => {
+function displayDropOffLocations () {
   return render({
     content: `Enter drop off location
     ${datasetToList(dropOffLocations)}`,
@@ -44,7 +43,7 @@ const displayDropOffLocations = () => {
   })
 }
 
-const displayGoods = () => {
+function displayGoods () {
   return render({
     content: `Select what's being shipped
     ${datasetToList(goods)}`,
@@ -52,14 +51,14 @@ const displayGoods = () => {
   })
 }
 
-const displayThanks = () => {
+function displayThanks () {
   return render({
     content: "Thank you for requesting a shipment",
     status: 'final'
   })
 }
 
-const displayArbitrarySender = () => {
+function displayArbitrarySender () {
   return render({
     content: "Enter sender phone number",
     dataset: displayPickupLocations,
@@ -67,7 +66,7 @@ const displayArbitrarySender = () => {
   })
 }
 
-const displayArbitraryReceiver = () => {
+function displayArbitraryReceiver () {
   return render({
     content: "Enter receiver phone number",
     dataset: displayDropOffLocations,
@@ -75,7 +74,7 @@ const displayArbitraryReceiver = () => {
   })
 }
 
-const home = [
+var home = [
   null,
   { title: "Request a shipment", confirm: displaySenders },
   { title: "Check shipment status" },
@@ -84,7 +83,7 @@ const home = [
   { title: "Help / Other services" },
 ]
 
-const people = [
+var people = [
   { title: "Me", },
   { title: "Doreen Gashuga" },
   { title: "Pacific Tuyishime" },
@@ -93,17 +92,17 @@ const people = [
   { title: "Manuel Arzuah" },
 ]
 
-const senders = [
+var senders = [
   ...people.map(item => { return { ...item, confirm: displayPickupLocations } }),
   { title: "Someone else", confirm: displayArbitrarySender },
 ]
 
-const receivers = [
+var receivers = [
   ...people.map(item => { return { ...item, confirm: displayDropOffLocations } }),
   { title: "Someone else", confirm: displayArbitraryReceiver },
 ]
 
-const locations = [
+var locations = [
   { title: "Saved location 1" },
   { title: "Saved location 2" },
   { title: "Saved location 3" },
@@ -112,15 +111,11 @@ const locations = [
   { title: "MTN branch code" },
 ]
 
-const pickUpLocations = [
-  ...locations.map(item => { return { ...item, confirm: displayReceivers } }),
-]
+var pickUpLocations = locations.map(item => { return { ...item, confirm: displayReceivers } });
 
-const dropOffLocations = [
-  ...locations.map(item => { return { ...item, confirm: displayGoods } }),
-]
+var dropOffLocations = locations.map(item => { return { ...item, confirm: displayGoods } });
 
-const goods = [
+var goods = [
   { title: "Loose goods", confirm: displayThanks, },
   { title: "Packaged goods", confirm: displayThanks, },
   { title: "Livestock", confirm: displayThanks, },

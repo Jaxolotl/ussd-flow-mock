@@ -83,7 +83,7 @@ const showTransition = async ({ transitionSpeed = 1000 } = {}) => {
   return;
 }
 
-const render = async ({ content = '', dataset = [], status = DEFAULT_STATUS } = {}) => {
+const render = async ({ content = '', dataset, status = DEFAULT_STATUS } = {}) => {
 
   await showTransition();
 

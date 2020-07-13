@@ -6,6 +6,9 @@ This is a simple app designed for technical and non technical users. The objecti
 Improvements, cleanup and more details will come time to time.  
 A Basic flow is added by default for you to have a "template".
 
+> **Note:**
+> The sample flow file and the examples here are written in plain old ES5 (with the exception of [template literals](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals)) so that anyone with basic JS knowledge can understand it and avoid dealing with the complexity of TDZ, destructuring, spread operator and other ES6+ stuff, but nothing stops you from writing it in ES6+ style if you want.
+
 [See the demo flow here](https://jaxolotl.github.io/ussd-flow-mock/src/index.html)
 
 ## How to define a flow
@@ -140,16 +143,14 @@ function displayPickupLocations () {
   })
 }
 
-var locations = [
-  { title: "Saved location 1" },
-  { title: "Saved location 2" },
-  { title: "Saved location 3" },
-  { title: "Find public location near me" },
-  { title: "Enter a location code" },
-  { title: "MTN branch code" },
+var pickUpLocations = [
+  { title: "Saved location 1", confirm: displayReceivers },
+  { title: "Saved location 2", confirm: displayReceivers },
+  { title: "Saved location 3", confirm: displayReceivers },
+  { title: "Find public location near me", confirm: displayArbitraryPickupLocationCode },
+  { title: "Enter a location code", confirm: displayArbitraryPickupLocationCode },
+  { title: "MTN branch code", confirm: displayArbitraryPickupLocationCode },
 ]
-
-var pickUpLocations = locations.map(item => { return { ...item, confirm: displayReceivers } });
 ```
 
 <table>

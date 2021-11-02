@@ -6,10 +6,31 @@ This is a simple app designed for technical and non technical users. The objecti
 Improvements, cleanup and more details will come time to time.  
 A Basic flow is added by default for you to have a "template".
 
-> **Note:**
+> **note:**
 > The sample flow file and the examples here are written in plain old ES5 (with the exception of [template literals](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals)) so that anyone with basic JS knowledge can understand it and avoid dealing with the complexity of TDZ, destructuring, spread operator and other ES6+ stuff, but nothing stops you from writing it in ES6+ style if you want.
 
-[See the demo flow here](https://jaxolotl.github.io/ussd-flow-mock/src/index.html)
+## See it in action
+
+No dependencies required.
+
+<details>
+  <summary>In your local machine</summary>
+  <ol>
+ <li>Download this repository code in your computer</li>
+ <li>Open the <code>/src/index.html</code> file in your preferred browser</li>
+ <li>Voilà</li>
+ </ol>
+</details>
+
+<details>
+  <summary>Online demo</summary>
+<a href="https://jaxolotl.github.io/ussd-flow-mock/src/index.html" target="_blank">See the demo flow here</a>
+</details>
+
+<br/>
+
+> **note:**
+> In the first menu only option 1 flow is defined, you can play with the code to add the other ones or change it as you please.
 
 ## How to define a flow
 
